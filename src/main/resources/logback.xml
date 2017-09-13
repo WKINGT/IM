@@ -1,0 +1,92 @@
+<configuration>
+	<property resource="logback.properties" />
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger -%msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${file.path}/logFile.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${file.path}/logFile.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- or whenever the file size reaches 100MB -->
+				<maxFileSize>${file.maxSize}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<!-- keep 30 days worth of history -->
+			<!-- <maxHistory>30</maxHistory> -->
+		</rollingPolicy>
+		<encoder>
+			<pattern>%-4relative [%thread] %-5level %logger{35} -%msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE-ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${file.path}/logFile-error.log</file>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${file.path}/logFile-error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxHistory>7</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>${file.maxSize}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+	<appender name="FILE-INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${file.path}/logFile-error.log</file>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${file.path}/logFile-error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxHistory>7</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>${file.maxSize}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+	<!-- <appender name="SOCKET" class="com.xgs.socket.XgsSocketAppender">
+		<formatter class="com.xgs.socket.formatter.JsonFormatter">
+			<expectJson>false</expectJson>
+		</formatter>
+		<RemoteHost>${socket.host}</RemoteHost>
+		<Port>${socket.port}</Port>
+		<ReconnectionDelay>${socket.delay}</ReconnectionDelay>
+		<IncludeCallerData>${socket.caller}</IncludeCallerData>
+		<queueSize>${socket.queue}</queueSize>
+	</appender>
+
+	<appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+		<connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
+			<dataSource class="${jdbc.dataSource}">
+				<driverClass>${jdbc.clazz}</driverClass>
+				<jdbcUrl>${jdbc.url}</jdbcUrl>
+				<user>${jdbc.user}</user>
+				<password>${jdbc.password}</password>
+			</dataSource>
+		</connectionSource>
+	</appender> -->
+	
+	<root level="debug">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="FILE-ERROR" />
+		<appender-ref ref="FILE-INFO" />
+	</root>
+	<logger name="ch.qos.logback.core" level="ERROR" />
+	<logger name="ch.qos.logback.classic" level="ERROR" />
+	<logger name="io.netty.util" level="ERROR" />
+	<logger name="io.netty.buffer" level="ERROR" />
+
+</configuration>

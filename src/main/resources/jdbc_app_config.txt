@@ -1,0 +1,6 @@
+jdbcUrl=jdbc:mysql://192.168.10.210:3306/im?useUnicode=true&characterEncoding=utf-8
+user=root
+password=
+max_poll=100
+min_poll=10
+show_sql=true
