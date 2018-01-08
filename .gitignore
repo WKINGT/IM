@@ -4,3 +4,5 @@
 /.myeclipse/
 /.settings/
 /logs/
+/.idea
+/.idea/*
